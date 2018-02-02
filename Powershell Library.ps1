@@ -41,3 +41,67 @@ $ie.document.getElementById("reportDrawer").Click()
 
 # class, name*
 # options index, submit
+
+
+
+
+
+$username = "" 
+$password = "" 
+$ie = New-Object -com InternetExplorer.Application 
+$ie.visible=$true
+$ie.navigate("https://www.htmx") 
+
+# if already logged in, skip some code
+# https://10.2.89.122:8444/cuic/Main.htmx
+
+
+
+# skip warning page
+while($ie.ReadyState -ne 4) {start-sleep -m 500} 
+$ie.document.getelementbyid("overridelink").click()
+
+# wait for page to load
+while($ie.ReadyState -ne 4) {start-sleep -m 500} 
+start-sleep 1
+
+
+# login
+$ie.document.getElementById("j_username").value= "$username" 
+$ie.document.getElementById("j_password").value = "$password" 
+$ie.document.getElementById("cuesLoginSubmitButton").Click()
+while($ie.ReadyState -ne 4) {start-sleep -m 500} 
+
+# go to report
+start-sleep 1
+$ie.document.getElementById("reportDrawerToggler").Click()
+
+start-sleep 1
+$ie.document.getElementById("reportDrawer_22 span , reportDrawerToggler").Click()
+
+
+
+start-sleep 1
+$link = @($ie.Document.getElementsByTagName('reportDrawer_23')) | Where-Object {$_.innerText -like '*Abandoned Calls*'}
+$link.click()
+
+
+
+<#
+
+$link = @($ie.Document.getElementsById('reportDrawer_23')) | Where-Object {$_.innerText -like '*Abandoned Calls*'}
+$link.click()
+
+start-sleep 1
+$ie.document.getElementById("reportDrawer_22").Click()
+start-sleep 1
+$ie.document.getElementById("creportDrawer_0").Click()
+start-sleep 1
+$ie.document.getElementById("reportDrawer_39").Click()
+
+# try again
+
+# class, name*
+# options index, submit
+
+#>
