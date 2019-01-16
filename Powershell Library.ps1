@@ -3,7 +3,7 @@ Powershell
 # list all items matching string, select all their properties
 ls -fil all*.csv | select *
 
-# text search within files
+# text search within all csv files
 ls -fil all*.csv | select-string t.*?t
 
 # search through folders, open
@@ -16,6 +16,18 @@ ls ../../work/tools -fil vba* | select *
 ls ../../work/notepad++ -fil *vb* | where{$_.length -ge 5000}
 ls ../../work/notepad++ -fil *vb* | where{$_.creationtime -ge "10/5/2016"}
 ls ../../work/notepad++ -fil *vb* | where{$_.extension -eq ".js"}
+
+# regex search: find all files w/ name -match "string"
+ls downloads | where {$_.name -match "skype"}
+
+
+
+## reference: https://stackoverflow.com/questions/21310538/get-all-lines-containing-a-string-in-a-huge-text-file-as-fast-as-possible
+# search & list files with text within file. 
+ls -r | select-string "phil" | select-object -unique path
+
+# ... and also output the matching line
+ls -r | select-string "phil" | select-object -unique path | get-content -readcount 1000 | foreach {$_ -match "phil"}
 
 
 
