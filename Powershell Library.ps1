@@ -34,3 +34,13 @@ ls -r | select-string "phil" | select-object -unique path | get-content -readcou
 # search for files, return parent directory, and open
 (ls -fil "*nemsy*" -r).Directory.FullName | Select-Object -Last 1 | ii
 
+
+# total file size of directory and subfolders
+write-host "Folder sizes:"
+ls -dir | ForEach-Object {$_.name, "{0} MB" -f ((ls $_.name -Recurse | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1MB)}
+write-host "`n"
+write-host "`n"
+write-host "Total size:"
+
+"{0} MB" -f ((ls -Recurse | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1MB)
+Pause
